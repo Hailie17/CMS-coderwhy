@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <login-panel></login-panel>
+    <el-icon :size="30" color="pink"><Position /></el-icon>
   </div>
 </template>
 
