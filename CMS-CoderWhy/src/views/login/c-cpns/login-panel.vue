@@ -5,15 +5,17 @@
     <!-- 中间tab -->
     <div class="tab">
       <el-tabs stretch type="border-card" v-model="activeName">
+        <!-- 账号登录pane -->
         <el-tab-pane name="account">
           <template #label>
             <div class="label">
               <el-icon><User /></el-icon>
-              <div class="text">账号登录</div>
+              <div class="text">帐号登录</div>
             </div>
           </template>
-          User
+          <pane-account ref="accountRef" />
         </el-tab-pane>
+        <!-- 手机登录pane -->
         <el-tab-pane name="phone">
           <template #label>
             <div class="label">
@@ -35,12 +37,17 @@
 </template>
 
 <script setup lang="ts">
+import PaneAccount from './pane-account.vue'
 import { ref } from 'vue'
 const activeName = ref('account')
 const isRemPwd = ref(true)
+const accountRef = ref<InstanceType<typeof PaneAccount>>()
+
 function handleLoginBtnClick() {
   if (activeName.value == 'account') {
-    console.log('account login')
+    // 1. 获取子组件实例
+    // 2. 调用子组件方法
+    accountRef.value?.loginAction()
   } else {
     console.log('phone login')
   }
