@@ -9,6 +9,7 @@ import registerIcons from './global/register-icons'
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
 // app.use(ElementPlus)
+import 'element-plus/theme-chalk/el-message.css'
 
 const app = createApp(App)
 app.use(registerIcons)
