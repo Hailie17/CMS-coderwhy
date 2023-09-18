@@ -15,9 +15,11 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { FormRules, ElForm } from 'element-plus'
+import useLoginStore from '@/store/login/login'
+import type { IAcount } from '@/types'
 
 /* 定义account表单数据*/
-const account = reactive({
+const account = reactive<IAcount>({
   name: '',
   password: ''
 })
@@ -26,7 +28,7 @@ const account = reactive({
 const accountRules: FormRules = {
   name: [
     { required: true, message: '请输入帐号信息', trigger: 'blur' },
-    { pattern: /^[a-z0-9]{3,6}$/, message: '请输入3-6位数字或字母', trigger: 'blur' }
+    { pattern: /^[a-z0-9]{3,8}$/, message: '请输入3-8位数字或字母', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入帐号密码', trigger: 'blur' },
@@ -36,10 +38,15 @@ const accountRules: FormRules = {
 
 /* 执行帐号的登录逻辑 */
 const formRef = ref<InstanceType<typeof ElForm>>()
+const loginStore = useLoginStore()
 function loginAction() {
   formRef.value?.validate((valid) => {
     if (valid) {
-      console.log('验证成功')
+      // 1. 获取用户输入的帐号和密码
+      const name = account.name
+      const password = account.password
+      // 2. 向服务器发送网络请求
+      loginStore.loginAcountAction({ name, password })
     } else {
       ElMessage({
         message: 'Oops, this is a error message.',
