@@ -37,17 +37,21 @@
 </template>
 
 <script setup lang="ts">
+import { localCache } from '@/utils/cache'
 import PaneAccount from './pane-account.vue'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const activeName = ref('account')
-const isRemPwd = ref(true)
+const isRemPwd = ref<boolean>(localCache.getCache('isRemPwd') ?? false)
+watch(isRemPwd, (newValue) => {
+  localCache.setCache('isRemPwd', newValue)
+})
 const accountRef = ref<InstanceType<typeof PaneAccount>>()
 
 function handleLoginBtnClick() {
   if (activeName.value == 'account') {
     // 1. 获取子组件实例
     // 2. 调用子组件方法
-    accountRef.value?.loginAction()
+    accountRef.value?.loginAction(isRemPwd.value)
   } else {
     console.log('phone login')
   }
