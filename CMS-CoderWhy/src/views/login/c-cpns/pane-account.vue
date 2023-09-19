@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <el-form :model="account" labe-width="60" size="large" :rules="accountRules" status-icon ref="formRef">
-      <el-form-item label="姓名" prop="name">
-        <el-input v-model="account.name" />
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input show-password v-model="account.password" />
-      </el-form-item>
-    </el-form>
-  </div>
+  <el-form :model="account" labe-width="60" size="large" :rules="accountRules" status-icon ref="formRef">
+    <el-form-item label="姓名" prop="name">
+      <el-input v-model="account.name" />
+    </el-form-item>
+    <el-form-item label="密码" prop="password">
+      <el-input show-password v-model="account.password" />
+    </el-form-item>
+  </el-form>
 </template>
 
 <script lang="ts" setup>

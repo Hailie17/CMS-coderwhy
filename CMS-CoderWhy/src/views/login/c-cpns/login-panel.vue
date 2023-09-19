@@ -23,7 +23,7 @@
               <div class="text">手机登录</div>
             </div>
           </template>
-          Config
+          <pane-phone />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -39,6 +39,7 @@
 <script setup lang="ts">
 import { localCache } from '@/utils/cache'
 import PaneAccount from './pane-account.vue'
+import PanePhone from './pane-phone.vue'
 import { ref, watch } from 'vue'
 const activeName = ref('account')
 const isRemPwd = ref<boolean>(localCache.getCache('isRemPwd') ?? false)
