@@ -5,8 +5,14 @@ import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
 
+interface ILoginState {
+  token: string
+  userInfo: any
+}
+
 const userLoginStore = defineStore('login', {
-  state: () => ({
+  // 如何指定state的类型
+  state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
     userInfo: {}
   }),
