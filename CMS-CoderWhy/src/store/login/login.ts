@@ -1,27 +1,28 @@
 import { defineStore } from 'pinia'
-import { accountLoginRequest } from '@/service/login/login'
+import { accountLoginRequest, getUserInfoById } from '@/service/login/login'
 import type { IAcount } from '@/types'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
+import { localCache } from '@/utils/cache'
 
 const userLoginStore = defineStore('login', {
   state: () => ({
-    id: '',
-    token: localStorage.getItem(LOGIN_TOKEN) ?? '',
-    name: ''
+    token: localCache.getCache(LOGIN_TOKEN) ?? '',
+    userInfo: {}
   }),
   actions: {
     async loginAcountAction(account: IAcount) {
-      // 1. 帐号登录，获取token等信息
+      // 1. 点击帐号登录，调用登录接口，获取token等信息
       const loginResult = await accountLoginRequest(account)
-      this.id = loginResult.data.id
+      const id = loginResult.data.id
       this.token = loginResult.data.token
-      this.name = loginResult.data.name
-
       // 2. 进行本地缓存
-      localStorage.setItem(LOGIN_TOKEN, this.token)
+      localCache.setCache(LOGIN_TOKEN, this.token)
 
-      // 3. 页面跳转 (main页面)
+      // 3. 获取用户登陆的详细信息（role信息）
+      const userInfoResult = await getUserInfoById(id)
+      this.userInfo = userInfoResult.data
+      // 4. 页面跳转 (main页面)
       router.push('/main')
     }
   }

@@ -7,3 +7,9 @@ export function accountLoginRequest(account: IAcount) {
     data: account
   })
 }
+
+export function getUserInfoById(id: number) {
+  return hyRequest.get({
+    url: `/users/${id}`
+  })
+}

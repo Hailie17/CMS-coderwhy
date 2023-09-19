@@ -29,7 +29,7 @@ const account = reactive<IAcount>({
 const accountRules: FormRules = {
   name: [
     { required: true, message: '请输入帐号信息', trigger: 'blur' },
-    { pattern: /^[a-z0-9]{3,8}$/, message: '请输入3-8位数字或字母', trigger: 'blur' }
+    { pattern: /^[a-z0-9]{3,9}$/, message: '请输入3-9位数字或字母', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入帐号密码', trigger: 'blur' },
