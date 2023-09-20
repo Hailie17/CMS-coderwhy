@@ -7,51 +7,28 @@
     </div>
     <!-- 2. menu -->
     <div class="menu">
-      <el-menu text-color="#b7bdc3" active-text-color="#fff" background-color="#001529">
-        <!-- 1. 系统总览 -->
-        <el-sub-menu>
-          <template #title>
-            <el-icon><Monitor /></el-icon>
-            <span>系统总览</span>
-          </template>
-          <el-menu-item>核心技术</el-menu-item>
-          <el-menu-item>商品统计</el-menu-item>
-        </el-sub-menu>
-        <!-- 1. 系统管理-->
-        <el-sub-menu>
-          <template #title>
-            <el-icon><Setting /></el-icon>
-            <span>系统总览</span>
-          </template>
-          <el-menu-item>核心技术</el-menu-item>
-          <el-menu-item>商品统计</el-menu-item>
-          <el-menu-item>商品统计</el-menu-item>
-          <el-menu-item>商品统计</el-menu-item>
-        </el-sub-menu>
-        <!-- 1. 商品中心 -->
-        <el-sub-menu>
-          <template #title>
-            <el-icon><Handbag /></el-icon>
-            <span>商品中心</span>
-          </template>
-          <el-menu-item>商品类别</el-menu-item>
-          <el-menu-item>商品信息</el-menu-item>
-        </el-sub-menu>
-        <!-- 4. 聊天 -->
-        <el-sub-menu>
-          <template #title>
-            <el-icon><ChatLineRound /></el-icon>
-            <span>随便聊聊</span>
-          </template>
-          <el-menu-item>核心技术</el-menu-item>
-          <el-menu-item>商品统计</el-menu-item>
-        </el-sub-menu>
+      <el-menu default-active="3" text-color="#b7bdc3" active-text-color="#fff" background-color="#001529">
+        <!-- 遍历整个菜单 -->
+        <template v-for="item in userMenus" :key="item.id">
+          <el-sub-menu :index="item.id + ''">
+            <template #title>{{ item.name }}</template>
+            <template v-for="subitem in item.children" :key="subitem.id">
+              <el-menu-item :index="subitem.id + ''">{{ subitem.name }}</el-menu-item>
+            </template>
+          </el-sub-menu>
+        </template>
       </el-menu>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import userLoginStore from '@/store/login/login'
+
+// 1. 获取动态的菜单
+const loginStore = userLoginStore()
+const userMenus = loginStore.userMenus
+</script>
 
 <style lang="less" scoped>
 .main-menu {
