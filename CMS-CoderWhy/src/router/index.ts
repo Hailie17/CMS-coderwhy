@@ -45,12 +45,10 @@ const router = createRouter({
 
 //导航守卫
 router.beforeEach((to) => {
-  if (to.path === '/main') {
-    // const token = localStorage.getItem(LOGIN_TOKEN)
-    const token = localCache.getCache(LOGIN_TOKEN)
-    if (!token) {
-      return '/login'
-    }
+  // const token = localStorage.getItem(LOGIN_TOKEN)
+  const token = localCache.getCache(LOGIN_TOKEN)
+  if (to.path.startsWith('/main') && !token) {
+    return '/login'
   }
 })
 export default router
