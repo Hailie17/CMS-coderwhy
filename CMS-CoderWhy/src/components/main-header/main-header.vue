@@ -7,13 +7,16 @@
     </div>
     <div class="content">
       <div class="breadcrunb">面包蟹</div>
-      <div class="info">个人信息</div>
+      <div class="info">
+        <header-info />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import HeaderInfo from './c-cpnts/header-info.vue'
 
 // 0. 内部自定义事件
 const emit = defineEmits(['foldChange'])

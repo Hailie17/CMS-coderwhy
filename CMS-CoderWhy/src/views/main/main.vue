@@ -47,7 +47,7 @@ function handleFoldChange(fold: boolean) {
       }
     }
     .el-header {
-      background: purple;
+      background: white;
     }
     .el-main {
       background: #f0f2f5;
