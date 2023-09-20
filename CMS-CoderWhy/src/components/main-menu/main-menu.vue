@@ -11,7 +11,12 @@
         <!-- 遍历整个菜单 -->
         <template v-for="item in userMenus" :key="item.id">
           <el-sub-menu :index="item.id + ''">
-            <template #title>{{ item.name }}</template>
+            <template #title>
+              <el-icon>
+                <component :is="item.icon.split('-icon-')[1]" />
+              </el-icon>
+              <span>{{ item.name }}</span>
+            </template>
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item :index="subitem.id + ''">{{ subitem.name }}</el-menu-item>
             </template>
