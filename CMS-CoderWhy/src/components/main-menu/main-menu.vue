@@ -12,6 +12,7 @@
         <template v-for="item in userMenus" :key="item.id">
           <el-sub-menu :index="item.id + ''">
             <template #title>
+              <!-- 字符串：el-icon-monitor => 组件 component 动态组件 -->
               <el-icon>
                 <component :is="item.icon.split('-icon-')[1]" />
               </el-icon>
