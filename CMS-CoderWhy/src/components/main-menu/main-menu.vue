@@ -3,11 +3,17 @@
     <!-- 1. logo -->
     <div class="logo">
       <img class="img" src="@/assets/img/logo.svg" alt="" />
-      <h2 class="title">藏龙岛管理系统</h2>
+      <h2 v-show="!isFold" class="title">藏龙岛管理系统</h2>
     </div>
     <!-- 2. menu -->
     <div class="menu">
-      <el-menu default-active="3" text-color="#b7bdc3" active-text-color="#fff" background-color="#001529">
+      <el-menu
+        default-active="3"
+        text-color="#b7bdc3"
+        active-text-color="#fff"
+        background-color="#001529"
+        :collapse="isFold"
+      >
         <!-- 遍历整个菜单 -->
         <template v-for="item in userMenus" :key="item.id">
           <el-sub-menu :index="item.id + ''">
@@ -30,6 +36,13 @@
 
 <script setup lang="ts">
 import userLoginStore from '@/store/login/login'
+// 0. 定义props，接收父组件传递的isFold
+defineProps({
+  isFold: {
+    type: Boolean,
+    default: true
+  }
+})
 
 // 1. 获取动态的菜单
 const loginStore = userLoginStore()
