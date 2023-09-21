@@ -10,9 +10,12 @@ import registerIcons from './global/register-icons'
 // import 'element-plus/dist/index.css'
 // app.use(ElementPlus)
 import 'element-plus/theme-chalk/el-message.css'
+import userLoginStore from './store/login/login'
 
 const app = createApp(App)
 app.use(registerIcons)
-app.use(router)
 app.use(pinia)
+const loginStore = userLoginStore()
+loginStore.loadLocalCacheAction()
+app.use(router)
 app.mount('#app')
