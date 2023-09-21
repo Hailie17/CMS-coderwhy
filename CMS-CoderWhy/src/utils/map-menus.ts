@@ -11,6 +11,8 @@ function loadLocalRoutes() {
   }
   return localRoutes
 }
+
+export let firstMenu: any = null
 export function mapManusToRoutes(userMenus: any) {
   const localRoutes = loadLocalRoutes()
   // 3. 根据菜单匹配正确的路由
@@ -19,6 +21,7 @@ export function mapManusToRoutes(userMenus: any) {
     for (const submenu of menu.children) {
       const route = localRoutes.find((item) => item.path === submenu.url)
       if (route) routes.push(route) //类型缩小，因为route有可能为空
+      if (!firstMenu && route) firstMenu = submenu
     }
   }
   return routes
