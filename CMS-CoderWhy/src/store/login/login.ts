@@ -4,7 +4,7 @@ import type { IAcount } from '@/types'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
-import type { RouteRecordRaw } from 'vue-router'
+import { mapManusToRoutes } from '@/utils/map-menus'
 
 interface ILoginState {
   token: string
@@ -42,12 +42,8 @@ const userLoginStore = defineStore('login', {
       localCache.setCache('userMenus', userMenus)
 
       // 动态路由
-      const localRoutes: RouteRecordRaw[] = []
-      const files: Record<string, any> = import.meta.glob('../../router/main/**/*.ts', { eager: true })
-      for (const key in files) {
-        const module = files[key]
-        localRoutes.push(module.default)
-      }
+      const routes = mapManusToRoutes(userMenus) //映射所有的routes
+      routes.forEach((route) => router.addRoute('main', route)) //将映射出的routes加到router中
 
       // 5. 页面跳转 (main页面)
       router.push('/main')
