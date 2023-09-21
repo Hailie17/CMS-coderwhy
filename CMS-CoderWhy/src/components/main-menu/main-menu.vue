@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import userLoginStore from '@/store/login/login'
 import { useRoute, useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { mapRouteToMenu } from '@/utils/map-menus'
 // 0. 定义props，接收父组件传递的isFold
 defineProps({
@@ -60,8 +60,10 @@ function handleItemClick(item: any) {
 
 // 3. Elmenu默认选中菜单
 const route = useRoute()
-const pathMenu = mapRouteToMenu(route.path, userMenus)
-const defaultActive = ref(pathMenu.id + '')
+const defaultActive = computed(() => {
+  const pathMenu = mapRouteToMenu(route.path, userMenus)
+  return pathMenu.id + ''
+})
 </script>
 
 <style lang="less" scoped>

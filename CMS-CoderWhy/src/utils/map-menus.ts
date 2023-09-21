@@ -20,7 +20,12 @@ export function mapManusToRoutes(userMenus: any) {
   for (const menu of userMenus) {
     for (const submenu of menu.children) {
       const route = localRoutes.find((item) => item.path === submenu.url)
-      if (route) routes.push(route) //类型缩小，因为route有可能为空
+      if (route) {
+        if (!routes.find((item) => item.path === menu.url)) {
+          routes.push({ path: menu.url, redirect: route.path })
+        }
+        routes.push(route) //类型缩小，因为route有可能为空
+      }
       if (!firstMenu && route) firstMenu = submenu
     }
   }
@@ -38,4 +43,21 @@ export function mapRouteToMenu(path: string, userMenus: any[]) {
       if (submenu.url === path) return submenu
     }
   }
+}
+
+interface IBreadcrumbs {
+  name: string
+  path: string
+}
+export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
+  const breadcrumbs: IBreadcrumbs[] = []
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === path) {
+        breadcrumbs.push({ name: menu.name, path: menu.url })
+        breadcrumbs.push({ name: submenu.name, path: submenu.url })
+      }
+    }
+  }
+  return breadcrumbs
 }
