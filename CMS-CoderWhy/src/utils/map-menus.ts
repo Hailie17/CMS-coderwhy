@@ -26,3 +26,16 @@ export function mapManusToRoutes(userMenus: any) {
   }
   return routes
 }
+
+/**
+ *根据路径去匹配需要显示的菜单
+ * @param path 要匹配的路径
+ * @param userMenus 所有的菜单
+ */
+export function mapRouteToMenu(path: string, userMenus: any[]) {
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === path) return submenu
+    }
+  }
+}

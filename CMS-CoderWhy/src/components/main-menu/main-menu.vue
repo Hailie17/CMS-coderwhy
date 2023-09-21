@@ -8,7 +8,7 @@
     <!-- 2. menu -->
     <div class="menu">
       <el-menu
-        default-active="3"
+        :default-active="defaultActive"
         text-color="#b7bdc3"
         active-text-color="#fff"
         background-color="#001529"
@@ -36,7 +36,9 @@
 
 <script setup lang="ts">
 import userLoginStore from '@/store/login/login'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
+import { mapRouteToMenu } from '@/utils/map-menus'
 // 0. 定义props，接收父组件传递的isFold
 defineProps({
   isFold: {
@@ -55,6 +57,11 @@ function handleItemClick(item: any) {
   const url = item.url
   router.push(url)
 }
+
+// 3. Elmenu默认选中菜单
+const route = useRoute()
+const pathMenu = mapRouteToMenu(route.path, userMenus)
+const defaultActive = ref(pathMenu.id + '')
 </script>
 
 <style lang="less" scoped>
