@@ -14,11 +14,21 @@
         <el-table-column align="center" prop="enable" label="状态" width="150">
           <!-- 作用域插槽 -->
           <template #default="scope">
-            {{ scope.row.enable ? '启用' : '禁用' }}
+            <el-button size="small" plain :type="scope.row.enable ? 'primary' : 'danger'">
+              {{ scope.row.enable ? '启用' : '禁用' }}
+            </el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="createAt" label="创建时间" width="300" />
-        <el-table-column align="center" prop="updateAt" label="更新时间" width="300" />
+        <el-table-column align="center" prop="createAt" label="创建时间" width="300">
+          <template #default="scope">
+            {{ formatUTC(scope.row.createAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="updateAt" label="更新时间" width="300">
+          <template #default="scope">
+            {{ formatUTC(scope.row.updateAt) }}
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <el-button text type="primary" icon="Edit">编辑</el-button>
           <el-button text type="danger" icon="Delete">删除</el-button>
@@ -31,6 +41,7 @@
 
 <script setup lang="ts">
 import useSystemStore from '@/store/main/system/system'
+import { formatUTC } from '@/utils/fomat'
 import { storeToRefs } from 'pinia'
 // 1. 发起action，请求usersList数据
 const systemStore = useSystemStore()
