@@ -5,6 +5,7 @@ import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
 import { mapManusToRoutes } from '@/utils/map-menus'
+import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
@@ -41,6 +42,10 @@ const userLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenus', userMenus)
 
+      // 5. 获取角色部门列表
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDateAction()
+
       // 动态路由
       const routes = mapManusToRoutes(userMenus) //映射所有的routes
       routes.forEach((route) => router.addRoute('main', route)) //将映射出的routes加到router中
@@ -57,6 +62,11 @@ const userLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
+
+        // 刷新再次获取角色部门列表
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDateAction()
+
         // 动态添加路由
         const routes = mapManusToRoutes(userMenus) //映射所有的routes
         routes.forEach((route) => router.addRoute('main', route)) //将映射出的routes加到router中
