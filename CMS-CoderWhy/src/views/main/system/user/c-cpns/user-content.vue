@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" size="large">新建用户</el-button>
+      <el-button type="primary" icon="Plus" size="large">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="userList" border style="width: 100%">
@@ -14,7 +14,7 @@
         <el-table-column align="center" prop="enable" label="状态" width="150">
           <!-- 作用域插槽 -->
           <template #default="scope">
-            <el-button size="small" plain :type="scope.row.enable ? 'primary' : 'danger'">
+            <el-button bg size="small" text :type="scope.row.enable ? 'primary' : 'danger'">
               {{ scope.row.enable ? '启用' : '禁用' }}
             </el-button>
           </template>
@@ -35,7 +35,17 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="pagination"></div>
+    <div class="pagination">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30, 40]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="usersTotalCount"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -43,11 +53,31 @@
 import useSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/fomat'
 import { storeToRefs } from 'pinia'
+import { ref } from 'vue'
+
+const currentPage = ref(1)
+const pageSize = ref(10)
 // 1. 发起action，请求usersList数据
 const systemStore = useSystemStore()
-systemStore.postUserListAction()
+fetchUserListData()
 // 2. 获取usersList数据，进行展示
-const { userList } = storeToRefs(systemStore)
+const { userList, usersTotalCount } = storeToRefs(systemStore)
+// 3. 分页处理
+function handleSizeChange() {
+  fetchUserListData()
+}
+function handleCurrentChange() {
+  fetchUserListData()
+}
+// 4. 定义函数，发送网络请求
+function fetchUserListData() {
+  // 1. 获取offset、size
+  const size = pageSize.value
+  const offset = (currentPage.value - 1) * size
+  const info = { size, offset }
+  // 2. 发送网络请求
+  systemStore.postUserListAction(info)
+}
 </script>
 
 <style lang="less" scoped>
@@ -63,6 +93,11 @@ const { userList } = storeToRefs(systemStore)
     .title {
       font-size: 22px;
     }
+  }
+  .pagination {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
   }
 }
 </style>
