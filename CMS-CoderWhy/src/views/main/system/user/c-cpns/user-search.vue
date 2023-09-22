@@ -51,6 +51,7 @@ import { ElForm } from 'element-plus'
 
 // 定义自定义事件
 const emit = defineEmits(['queryClick', 'resetClick'])
+
 // 定义form数据
 const searchForm = reactive({
   name: '',
@@ -66,7 +67,7 @@ function handleResetClick() {
   // 1. 清空表单
   formRef.value?.resetFields()
 
-  // 传递事件，content内部重新发送网络请求
+  // 2. 传递事件，content内部重新发送网络请求
   emit('resetClick')
 }
 

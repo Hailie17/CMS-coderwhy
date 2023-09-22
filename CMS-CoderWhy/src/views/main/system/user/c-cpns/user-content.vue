@@ -30,8 +30,10 @@
           </template>
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
-          <el-button text type="primary" icon="Edit">编辑</el-button>
-          <el-button text type="danger" icon="Delete">删除</el-button>
+          <template #default="scope">
+            <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row.id)">编辑</el-button>
+            <el-button text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
     </div>
@@ -83,6 +85,11 @@ function fetchUserListData(formData: any = {}) {
   const queryInfo = { ...pageInfo, ...formData }
   systemStore.postUserListAction(queryInfo)
 }
+
+function handleDeletBtnClick(id: number) {
+  systemStore.deleteUserByIdAction(id)
+}
+function handleEditBtnClick(id: string) {}
 defineExpose({ fetchUserListData })
 </script>
 
