@@ -60,8 +60,10 @@ const pageSize = ref(10)
 // 1. 发起action，请求usersList数据
 const systemStore = useSystemStore()
 fetchUserListData()
+
 // 2. 获取usersList数据，进行展示
 const { userList, usersTotalCount } = storeToRefs(systemStore)
+
 // 3. 分页处理
 function handleSizeChange() {
   fetchUserListData()
@@ -69,15 +71,19 @@ function handleSizeChange() {
 function handleCurrentChange() {
   fetchUserListData()
 }
+
 // 4. 定义函数，发送网络请求
-function fetchUserListData() {
+function fetchUserListData(formData: any = {}) {
   // 1. 获取offset、size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
-  const info = { size, offset }
+  const pageInfo = { size, offset }
+
   // 2. 发送网络请求
-  systemStore.postUserListAction(info)
+  const queryInfo = { ...pageInfo, ...formData }
+  systemStore.postUserListAction(queryInfo)
 }
+defineExpose({ fetchUserListData })
 </script>
 
 <style lang="less" scoped>
