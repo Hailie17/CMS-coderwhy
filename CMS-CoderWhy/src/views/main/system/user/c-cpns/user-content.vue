@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" icon="Plus" size="large">新建用户</el-button>
+      <el-button type="primary" icon="Plus" size="large" @click="handleAddUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="userList" border style="width: 100%">
@@ -31,7 +31,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="300">
           <template #default="scope">
-            <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row.id)">编辑</el-button>
+            <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row)">编辑</el-button>
             <el-button text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)">删除</el-button>
           </template>
         </el-table-column>
@@ -56,6 +56,8 @@ import useSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/fomat'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+
+const emit = defineEmits(['addClick', 'editClick'])
 
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -86,10 +88,16 @@ function fetchUserListData(formData: any = {}) {
   systemStore.postUserListAction(queryInfo)
 }
 
+// 5. 新建、删除、编辑操作
+function handleAddUserClick() {
+  emit('addClick')
+}
 function handleDeletBtnClick(id: number) {
   systemStore.deleteUserByIdAction(id)
 }
-function handleEditBtnClick(id: string) {}
+function handleEditBtnClick(itemData: any) {
+  emit('editClick', itemData)
+}
 defineExpose({ fetchUserListData })
 </script>
 
