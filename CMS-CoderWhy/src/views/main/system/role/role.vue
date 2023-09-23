@@ -1,12 +1,13 @@
 <template>
   <div class="role">
-    <h2>role</h2>
+    <page-search />
+    <page-content />
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import PageSearch from './c-cpns/page-search.vue'
+import PageContent from './c-cpns/page-content.vue'
+</script>
 
-<style lang="less" scoped>
-.role {
-}
-</style>
+<style lang="less" scoped></style>
