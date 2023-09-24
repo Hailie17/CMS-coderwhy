@@ -6,6 +6,7 @@
     "src/**/*.vue",
     "src/**/*.ts",
     "src/**/**/*.ts",
+    "src/**/**/**/*.ts",
     "auto-imports.d.ts",
     "components.d.ts"
   ],

@@ -6,22 +6,22 @@
     </div>
     <div class="table">
       <el-table :data="pageList" border style="width: 100%">
-        <el-table-column align="center" type="selection" width="50" />
-        <el-table-column align="center" type="index" label="序号" width="60" />
-        <el-table-column align="center" prop="name" label="部门" width="200" />
-        <el-table-column align="center" prop="leader" label="部门领导" width="250" />
-        <el-table-column align="center" prop="parentId" label="上级部门" width="160" />
-        <el-table-column align="center" prop="createAt" label="创建时间" width="300">
+        <el-table-column align="center" type="selection" width="50px" />
+        <el-table-column align="center" type="index" label="序号" width="60px" />
+        <el-table-column align="center" prop="name" label="部门" width="160px" />
+        <el-table-column align="center" prop="leader" label="部门领导" width="200px" />
+        <el-table-column align="center" prop="parentId" label="上级部门" width="160px" />
+        <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="updateAt" label="更新时间" width="300">
+        <el-table-column align="center" prop="updateAt" label="更新时间">
           <template #default="scope">
             {{ formatUTC(scope.row.updateAt) }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="300">
+        <el-table-column align="center" label="操作" width="200px">
           <template #default="scope">
             <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row)">编辑</el-button>
             <el-button text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)">删除</el-button>

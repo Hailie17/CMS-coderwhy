@@ -6,12 +6,12 @@
     </div>
     <div class="table">
       <el-table :data="userList" border style="width: 100%">
-        <el-table-column align="center" type="selection" width="50" />
-        <el-table-column align="center" type="index" label="序号" width="60" />
-        <el-table-column align="center" prop="name" label="用户名" width="150" />
-        <el-table-column align="center" prop="realname" label="真实姓名" width="150" />
-        <el-table-column align="center" prop="cellphone" label="手机号码" width="160" />
-        <el-table-column align="center" prop="enable" label="状态" width="150">
+        <el-table-column align="center" type="selection" width="50px" />
+        <el-table-column align="center" type="index" label="序号" width="60px" />
+        <el-table-column align="center" prop="name" label="用户名" width="150px" />
+        <el-table-column align="center" prop="realname" label="真实姓名" width="150px" />
+        <el-table-column align="center" prop="cellphone" label="手机号码" width="160px" />
+        <el-table-column align="center" prop="enable" label="状态" width="150px">
           <!-- 作用域插槽 -->
           <template #default="scope">
             <el-button bg size="small" text :type="scope.row.enable ? 'primary' : 'danger'">
@@ -19,17 +19,17 @@
             </el-button>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="createAt" label="创建时间" width="300">
+        <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="updateAt" label="更新时间" width="300">
+        <el-table-column align="center" prop="updateAt" label="更新时间">
           <template #default="scope">
             {{ formatUTC(scope.row.updateAt) }}
           </template>
         </el-table-column>
-        <el-table-column align="center" label="操作" width="300">
+        <el-table-column align="center" label="操作" width="200px">
           <template #default="scope">
             <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row)">编辑</el-button>
             <el-button text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)">删除</el-button>

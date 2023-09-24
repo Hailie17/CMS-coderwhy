@@ -41,3 +41,17 @@ export function deletPageById(pageName: string, id: number) {
     url: `/${pageName}/${id}`
   })
 }
+
+export function addPageData(pageName: string, userInfo: any) {
+  return hyRequest.post({
+    url: `/${pageName}`,
+    data: userInfo
+  })
+}
+
+export function editPageData(pageName: string, id: number, userInfo: any) {
+  return hyRequest.patch({
+    url: `/${pageName}/${id}`,
+    data: userInfo
+  })
+}
