@@ -7,7 +7,7 @@
       @add-click="handleAddClick"
       @edit-click="handleEditClick"
     />
-    <page-modal ref="modalRef" />
+    <page-modal :modal-config="modalConfig" ref="modalRef" />
   </div>
 </template>
 
@@ -18,6 +18,7 @@ import PageModal from '@/components/page-modal/page-modal.vue'
 import { ref } from 'vue'
 import searchConfig from './config/search.config'
 import contentConfig from './config/content.config'
+import modalConfig from './config/modal.config'
 
 const contentRef = ref<InstanceType<typeof PageContent>>()
 function handleQueryClick(queryInfo: any) {

@@ -45,9 +45,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import useMainStore from '@/store/main/main'
 import useSystemStore from '@/store/main/system/system'
-import { storeToRefs } from 'pinia'
 
 // 0. 定义props
 interface IProps {
@@ -60,20 +58,18 @@ interface IProps {
   }
 }
 const props = defineProps<IProps>()
-// 1. 定义数据
+// 1. 定义内部的属性
 const dialogVisible = ref(false)
-const formData = reactive<any>({
-  name: '',
-  leader: '',
-  parentId: ''
-})
+const initialData: any = {}
+for (const item of props.modalConfig.formItems) {
+  initialData[item.prop] = item.initialValue ?? ''
+}
+const formData = reactive<any>(initialData)
 const isAddRef = ref(true)
 const userData = ref<any>()
 
 // 2. 获取roles/departments数据
-const mainStore = useMainStore()
 const systemStore = useSystemStore()
-const { entireDepartments } = storeToRefs(mainStore)
 
 function dialogShow(isAdd: boolean = true, itemData?: any) {
   isAddRef.value = isAdd
@@ -86,7 +82,8 @@ function dialogShow(isAdd: boolean = true, itemData?: any) {
     userData.value = itemData
   } else {
     for (const key in formData) {
-      formData[key] = ''
+      const item = modalConfig.formItems.find((item) => item.prop === key)
+      formData[key] = item ? item.initialValue : ''
     }
     userData.value = null
   }
