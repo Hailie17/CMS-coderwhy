@@ -54,6 +54,7 @@ import { ref } from 'vue'
 
 interface IProps {
   contentConfig: {
+    pageName: string
     header?: {
       title?: string
       btnTitle?: string
