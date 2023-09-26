@@ -25,7 +25,7 @@
               <template v-if="item.type === 'select'">
                 <el-select v-model="formData[item.prop]" :placeholder="item.placeholder" style="width: 100%">
                   <template v-for="option in item.options" :key="option.value">
-                    <el-option :label="option.name" :value="option.value" />
+                    <el-option :label="option.label" :value="option.value" />
                   </template>
                 </el-select>
               </template>
@@ -46,18 +46,10 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
 import useSystemStore from '@/store/main/system/system'
-
+import type { IModalProps } from './type'
 // 0. 定义props
-interface IProps {
-  modalConfig: {
-    header: {
-      newTitle: string
-      editTitle: string
-    }
-    formItems: any[]
-  }
-}
-const props = defineProps<IProps>()
+
+const props = defineProps<IModalProps>()
 // 1. 定义内部的属性
 const dialogVisible = ref(false)
 const initialData: any = {}
@@ -82,7 +74,7 @@ function dialogShow(isAdd: boolean = true, itemData?: any) {
     userData.value = itemData
   } else {
     for (const key in formData) {
-      const item = modalConfig.formItems.find((item) => item.prop === key)
+      const item = props.modalConfig.formItems.find((item) => item.prop === key)
       formData[key] = item ? item.initialValue : ''
     }
     userData.value = null
@@ -94,10 +86,10 @@ function handleConfirmClick() {
   dialogVisible.value = false
   if (!isAddRef.value && userData) {
     // 1. 编辑用户信息
-    systemStore.editPageDataAction('department', userData.value.id, formData)
+    systemStore.editPageDataAction(props.modalConfig.pageName, userData.value.id, formData)
   } else {
     // 2. 新增用户
-    systemStore.addPageByIdAction('department', formData)
+    systemStore.addPageByIdAction(props.modalConfig.pageName, formData)
   }
 }
 defineExpose({ dialogShow })

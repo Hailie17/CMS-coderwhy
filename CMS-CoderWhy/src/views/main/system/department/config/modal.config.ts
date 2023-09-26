@@ -1,4 +1,7 @@
-const modalConfig = {
+import type { IModalConfig } from '@/components/page-modal/type'
+
+const config = {
+  pageName: 'department',
   header: {
     newTitle: '新增部门',
     editTitle: '编辑部门'
@@ -8,8 +11,8 @@ const modalConfig = {
       type: 'input',
       prop: 'name',
       label: '部门名称',
-      placeholder: '请输入部门名称',
-      initialValue: 'aaa' //初始化值
+      placeholder: '请输入部门名称'
+      // initialValue: '' //初始化值
     },
     {
       type: 'input',
@@ -20,20 +23,13 @@ const modalConfig = {
     },
     {
       type: 'select',
-      labe: '上级部门',
+      label: '上级部门',
       prop: 'parentId',
       placeholder: '请选择上级部门',
-      options: [
-        { label: '财务部', value: 111 },
-        { label: '市场部', value: 222 }
-      ]
-    },
-    {
-      type: 'date-picker',
-      prop: 'createAt',
-      label: '创建时间'
-      // initialValue: 'ccc'
+      options: []
     }
   ]
 }
+
+const modalConfig: IModalConfig = config
 export default modalConfig

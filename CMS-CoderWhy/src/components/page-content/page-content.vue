@@ -9,7 +9,7 @@
       </el-button>
     </div>
     <div class="table">
-      <el-table :data="pageList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%" v-bind="contentConfig.childrenTree">
         <template v-for="item in contentConfig.propsList" :key="item.prop">
           <template v-if="item.type === 'timer'">
             <el-table-column align="center" v-bind="item">
@@ -51,18 +51,9 @@ import useSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/fomat'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import type { IContentProps } from './type'
 
-interface IProps {
-  contentConfig: {
-    pageName: string
-    header?: {
-      title?: string
-      btnTitle?: string
-    }
-    propsList: any[]
-  }
-}
-const props = defineProps<IProps>()
+const props = defineProps<IContentProps>()
 const emit = defineEmits(['addClick', 'editClick'])
 
 const currentPage = ref(1)
@@ -91,7 +82,7 @@ function fetchPageListData(formData: any = {}) {
 
   // 2. 发送网络请求
   const queryInfo = { ...pageInfo, ...formData }
-  systemStore.postPageListAction('department', queryInfo)
+  systemStore.postPageListAction(props.contentConfig.pageName, queryInfo)
 }
 
 // 5. 新建、删除、编辑操作
@@ -99,7 +90,7 @@ function handleAddUserClick() {
   emit('addClick')
 }
 function handleDeletBtnClick(id: number) {
-  systemStore.deletePageByIdAction('department', id)
+  systemStore.deletePageByIdAction(props.contentConfig.pageName, id)
 }
 function handleEditBtnClick(itemData: any) {
   emit('editClick', itemData)
