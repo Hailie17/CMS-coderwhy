@@ -87,12 +87,18 @@ function dialogShow(isAdd: boolean = true, itemData?: any) {
 // 3. 点击了确定的逻辑
 function handleConfirmClick() {
   dialogVisible.value = false
+
+  let infoData = formData
+  if (props.otherInfo) {
+    infoData = { ...infoData, ...props.otherInfo }
+  }
+
   if (!isAddRef.value && userData) {
     // 1. 编辑用户信息
-    systemStore.editPageDataAction(props.modalConfig.pageName, userData.value.id, formData)
+    systemStore.editPageDataAction(props.modalConfig.pageName, userData.value.id, infoData)
   } else {
     // 2. 新增用户
-    systemStore.addPageByIdAction(props.modalConfig.pageName, formData)
+    systemStore.addPageByIdAction(props.modalConfig.pageName, infoData)
   }
 }
 defineExpose({ dialogShow })
