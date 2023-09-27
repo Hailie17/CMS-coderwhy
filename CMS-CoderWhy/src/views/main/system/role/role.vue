@@ -7,7 +7,9 @@
       @add-click="handleAddClick"
       @edit-click="handleEditClick"
     />
-    <page-modal :modal-config="modalConfig" ref="modalRef" />
+    <page-modal :modal-config="modalConfig" ref="modalRef">
+      <template #menulist><span>菜单列表</span></template>
+    </page-modal>
   </div>
 </template>
 
