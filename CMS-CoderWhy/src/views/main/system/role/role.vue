@@ -10,6 +10,7 @@
     <page-modal :modal-config="modalConfig" :other-info="otherInfo" ref="modalRef">
       <template #menulist>
         <el-tree
+          ref="treeRef"
           :data="entireMenus"
           show-checkbox
           node-key="id"
@@ -22,6 +23,10 @@
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { ref, nextTick } from 'vue'
+import type { ElTree } from 'element-plus'
+
 import PageSearch from '@/components/page-search/page-search.vue'
 import searchConfig from './config/search.config'
 
@@ -34,12 +39,11 @@ import modalConfig from './config/modal.config'
 import usePageContent from '@/hooks/usePageContent'
 import usePageModal from '@/hooks/usePageModal'
 import useMainStore from '@/store/main/main'
-import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { mapManusToIds } from '@/utils/map-menus'
 
 // 逻辑关系
 const { contentRef, handleQueryClick, handleQueryReset } = usePageContent()
-const { modalRef, handleAddClick, handleEditClick } = usePageModal()
+const { modalRef, handleAddClick, handleEditClick } = usePageModal(editCallback)
 
 // 获取完整的菜单
 const mainStore = useMainStore()
@@ -48,6 +52,14 @@ const otherInfo = ref({})
 function handleElTreeCheck(data1: any, data2: any) {
   const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys]
   otherInfo.value = { menuList }
+}
+
+const treeRef = ref<InstanceType<typeof ElTree>>()
+function editCallback(itemData: any) {
+  nextTick(() => {
+    const menuIds = mapManusToIds(itemData.menuList)
+    treeRef.value?.setCheckedKeys(menuIds)
+  })
 }
 </script>
 

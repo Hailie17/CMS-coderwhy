@@ -4,7 +4,7 @@ import type { IAcount } from '@/types'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
-import { mapManusToRoutes } from '@/utils/map-menus'
+import { mapManusToRoutes, mapMenusListToPermissions } from '@/utils/map-menus'
 import useMainStore from '../main/main'
 
 interface ILoginState {
@@ -67,7 +67,10 @@ const userLoginStore = defineStore('login', {
         const mainStore = useMainStore()
         mainStore.fetchEntireDateAction()
 
-        // 动态添加路由
+        // 获取登录用户所有按钮的权限
+        const permissons = mapMenusListToPermissions(userMenus)
+
+        // 重要： 动态添加路由
         const routes = mapManusToRoutes(userMenus) //映射所有的routes
         routes.forEach((route) => router.addRoute('main', route)) //将映射出的routes加到router中
       }

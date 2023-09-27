@@ -1,6 +1,5 @@
 <template>
   <div class="menu">
-    <h2>menu</h2>
     <page-content :content-config="contentConfig" />
   </div>
 </template>
