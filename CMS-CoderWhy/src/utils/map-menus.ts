@@ -90,7 +90,17 @@ export function mapManusToIds(menuList: any[]) {
  * @returns 权限数组
  */
 export function mapMenusListToPermissions(menuList: any[]) {
-  const permissons: string[] = []
-
-  return permissons
+  const permissions: string[] = []
+  //递归
+  function recurseGetPermission(menus: any[]) {
+    for (const item of menus) {
+      if (item.type === 3) {
+        permissions.push(item.permission)
+      } else {
+        recurseGetPermission(item.children ?? [])
+      }
+    }
+  }
+  recurseGetPermission(menuList)
+  return permissions
 }

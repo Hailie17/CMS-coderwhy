@@ -29,15 +29,12 @@ const modalConfigRef = computed(() => {
   const departments = mainStore.entireDepartments.map((item) => {
     return { label: item.name, value: item.id }
   })
-  console.log(departments, 12)
 
   modalConfig.formItems.forEach((item) => {
     if (item.prop === 'parentId') {
       item.options.push(...departments)
     }
   })
-  console.log(modalConfig.formItems, 111)
-
   return modalConfig
 })
 

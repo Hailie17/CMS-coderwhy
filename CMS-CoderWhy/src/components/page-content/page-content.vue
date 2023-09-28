@@ -4,7 +4,7 @@
       <h3 class="title">
         {{ contentConfig?.header?.title ?? '数据列表' }}
       </h3>
-      <el-button type="primary" icon="Plus" size="large" @click="handleAddUserClick">
+      <el-button v-if="isCreate" type="primary" icon="Plus" size="large" @click="handleAddUserClick">
         {{ contentConfig?.header?.btnTitle ?? '新建部门' }}
       </el-button>
     </div>
@@ -21,8 +21,12 @@
           <template v-else-if="item.type === 'handler'">
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
-                <el-button text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row)">编辑</el-button>
-                <el-button text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)">删除</el-button>
+                <el-button v-if="isUpdate" text type="primary" icon="Edit" @click="handleEditBtnClick(scope.row)"
+                  >编辑</el-button
+                >
+                <el-button v-if="isDelete" text type="danger" icon="Delete" @click="handleDeletBtnClick(scope.row.id)"
+                  >删除</el-button
+                >
               </template>
             </el-table-column>
           </template>
@@ -47,14 +51,23 @@
 </template>
 
 <script setup lang="ts">
-import useSystemStore from '@/store/main/system/system'
-import { formatUTC } from '@/utils/fomat'
 import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
 import type { IContentProps } from './type'
+import useSystemStore from '@/store/main/system/system'
+import { formatUTC } from '@/utils/fomat'
+import usePermissions from '@/hooks/usePermissions'
 
 const props = defineProps<IContentProps>()
+
+// 定义事件
 const emit = defineEmits(['addClick', 'editClick'])
+
+// 0. 获取对应增删改查的权限
+const isDelete = usePermissions(`${props.contentConfig.pageName}:update`)
+const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
+const isCreate = usePermissions(`${props.contentConfig.pageName}:create`)
+const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
 
 const currentPage = ref(1)
 const pageSize = ref(10)
@@ -75,6 +88,7 @@ function handleCurrentChange() {
 
 // 4. 定义函数，发送网络请求
 function fetchPageListData(formData: any = {}) {
+  if (!isQuery) return
   // 1. 获取offset、size
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size

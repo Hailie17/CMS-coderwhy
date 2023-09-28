@@ -11,6 +11,7 @@ interface ILoginState {
   token: string
   userInfo: any
   userMenus: any
+  permissions: string[]
 }
 
 const userLoginStore = defineStore('login', {
@@ -18,7 +19,8 @@ const userLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: '',
     userInfo: {},
-    userMenus: []
+    userMenus: [],
+    permissions: []
   }),
   actions: {
     async loginAcountAction(account: IAcount) {
@@ -46,6 +48,10 @@ const userLoginStore = defineStore('login', {
       const mainStore = useMainStore()
       mainStore.fetchEntireDateAction()
 
+      //重要 获取登录用户所有按钮的权限
+      const permissions = mapMenusListToPermissions(userMenus)
+      this.permissions = permissions //保存到store里
+
       // 动态路由
       const routes = mapManusToRoutes(userMenus) //映射所有的routes
       routes.forEach((route) => router.addRoute('main', route)) //将映射出的routes加到router中
@@ -67,8 +73,9 @@ const userLoginStore = defineStore('login', {
         const mainStore = useMainStore()
         mainStore.fetchEntireDateAction()
 
-        // 获取登录用户所有按钮的权限
-        const permissons = mapMenusListToPermissions(userMenus)
+        //重要 获取登录用户所有按钮的权限，刷新有缓存
+        const permissions = mapMenusListToPermissions(userMenus)
+        this.permissions = permissions //保存到store里
 
         // 重要： 动态添加路由
         const routes = mapManusToRoutes(userMenus) //映射所有的routes
