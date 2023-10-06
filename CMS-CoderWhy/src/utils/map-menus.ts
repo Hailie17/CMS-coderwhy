@@ -94,9 +94,11 @@ export function mapMenusListToPermissions(menuList: any[]) {
   //递归
   function recurseGetPermission(menus: any[]) {
     for (const item of menus) {
+      //按钮权限在第三级
       if (item.type === 3) {
         permissions.push(item.permission)
       } else {
+        //item.children有可能为null或undefined会报错，赋值为[]不会遍历也不会报错
         recurseGetPermission(item.children ?? [])
       }
     }

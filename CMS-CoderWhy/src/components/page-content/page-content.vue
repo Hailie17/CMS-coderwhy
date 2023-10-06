@@ -51,8 +51,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
 import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
 import type { IContentProps } from './type'
 import useSystemStore from '@/store/main/system/system'
 import { formatUTC } from '@/utils/fomat'
@@ -73,6 +73,13 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 // 1. 发起action，请求usersList数据
 const systemStore = useSystemStore()
+systemStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (name === 'deleteUserByIdAction' || name === 'addUserDataAction' || name === 'editUserDataAction') {
+      currentPage.value = 1
+    }
+  })
+})
 fetchPageListData()
 
 // 2. 获取usersList数据，进行展示

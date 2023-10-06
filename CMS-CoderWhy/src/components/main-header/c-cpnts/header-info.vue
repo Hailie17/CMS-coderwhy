@@ -18,7 +18,7 @@
       <el-dropdown>
         <span class="user-info">
           <el-avatar :size="30" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" />
-          <span class="name">coderwhy</span>
+          <span class="name">{{ mainStore.userInfo.name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -45,11 +45,14 @@
 import { useRouter } from 'vue-router'
 import { localCache } from '@/utils/cache'
 import { LOGIN_TOKEN } from '@/global/constants'
+import userLoginStore from '@/store/login/login'
 const router = useRouter()
 function handleExitClick() {
   localCache.removeCache(LOGIN_TOKEN)
   router.push('/login')
 }
+
+const mainStore = userLoginStore()
 </script>
 
 <style lang="less" scoped>

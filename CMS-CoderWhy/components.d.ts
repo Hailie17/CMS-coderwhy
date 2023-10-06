@@ -7,11 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseEchart: typeof import('./src/components/page-echarts/src/base-echart.vue')['default']
+    BaseEcharts: typeof import('./src/components/page-echarts/src/base-echarts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -39,14 +42,17 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     HeaderCrumb: typeof import('./src/components/main-header/c-cpnts/header-crumb.vue')['default']
     HeaderInfo: typeof import('./src/components/main-header/c-cpnts/header-info.vue')['default']
+    LineEchart: typeof import('./src/components/page-echarts/src/line-echart.vue')['default']
     MainHeader: typeof import('./src/components/main-header/main-header.vue')['default']
     MainMenu: typeof import('./src/components/main-menu/main-menu.vue')['default']
     PageContent: typeof import('./src/components/page-content/page-content.vue')['default']
     PageModal: typeof import('./src/components/page-modal/page-modal.vue')['default']
     PageSearch: typeof import('./src/components/page-search/page-search.vue')['default']
+    PieEchart: typeof import('./src/components/page-echarts/src/pie-echart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

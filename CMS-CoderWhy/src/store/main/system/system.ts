@@ -10,6 +10,7 @@ import {
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
 import type { ISystemState } from './type'
+import useMainStore from '../main'
 
 const useSystemStore = defineStore('system', {
   state: (): ISystemState => ({
@@ -46,18 +47,34 @@ const useSystemStore = defineStore('system', {
       const { totalCount, list } = pageListResult.data
       this.pageList = list
       this.pageTotalCount = totalCount
+
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDateAction()
     },
     async deletePageByIdAction(pageName: string, queryInfo: any) {
       const deleteResult = await deletPageById(pageName, queryInfo)
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDateAction()
     },
     async addPageByIdAction(pageName: string, queryInfo: any) {
       const addResult = await addPageData(pageName, queryInfo)
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDateAction()
     },
     async editPageDataAction(pageName: string, id: number, userInfo: any) {
       const editResult = await editPageData(pageName, id, userInfo)
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDateAction()
     }
   }
 })

@@ -32,16 +32,21 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { ElForm } from 'element-plus'
+import usePermissions from '@/hooks/usePermissions'
 
 // 定义自定义事件、接受的属性
 interface IProps {
   searchConfig: {
+    pageName: string
     labelWith?: string
     formItems: any[]
   }
 }
 const emit = defineEmits(['queryClick', 'resetClick'])
 const props = defineProps<IProps>()
+
+//获取权限
+const isQuery = usePermissions(`${props.searchConfig.pageName}:query`)
 
 // 定义form数据
 const initialForm: any = {}

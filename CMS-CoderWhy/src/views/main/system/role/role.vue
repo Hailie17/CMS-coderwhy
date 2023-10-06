@@ -43,7 +43,7 @@ import { mapManusToIds } from '@/utils/map-menus'
 
 // 逻辑关系
 const { contentRef, handleQueryClick, handleQueryReset } = usePageContent()
-const { modalRef, handleAddClick, handleEditClick } = usePageModal(editCallback)
+const { modalRef, handleAddClick, handleEditClick } = usePageModal(newCallback, editCallback)
 
 // 获取完整的菜单
 const mainStore = useMainStore()
@@ -54,7 +54,13 @@ function handleElTreeCheck(data1: any, data2: any) {
   otherInfo.value = { menuList }
 }
 
+//数据回显
 const treeRef = ref<InstanceType<typeof ElTree>>()
+function newCallback() {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
+}
 function editCallback(itemData: any) {
   nextTick(() => {
     const menuIds = mapManusToIds(itemData.menuList)
