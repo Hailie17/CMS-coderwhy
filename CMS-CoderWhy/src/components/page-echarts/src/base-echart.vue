@@ -20,11 +20,15 @@ const props = defineProps<IProps>()
 
 const echartRef = ref<HTMLElement>()
 onMounted(() => {
-  //拿到echart实例
+  //1. 拿到echart实例
   const echartInstance = echarts.init(echartRef.value!, 'light', { renderer: 'canvas' })
-  //设置option,watcheffect监听option变化，重新执行
+  //2. 设置option,watcheffect监听option变化，重新执行
   watchEffect(() => {
     echartInstance.setOption(props.option)
+  })
+  //3. 监听window缩放
+  window.addEventListener('resize', () => {
+    echartInstance.resize()
   })
 })
 </script>
